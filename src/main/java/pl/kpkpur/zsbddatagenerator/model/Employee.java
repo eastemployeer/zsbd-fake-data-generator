@@ -1,12 +1,11 @@
 package pl.kpkpur.zsbddatagenerator.model;
 
 import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.kpkpur.zsbddatagenerator.model.enums.EmployeeRole;
 
 @Data
 @Entity
@@ -14,41 +13,51 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Employee {
   public Employee(
-      Long employeeId,
-      Long addressId,
-      String firstName,
-      String lastName,
-      Date dateOfBirth,
-      String gender,
-      String phoneNumber) {
-    this.employeeId = employeeId;
-    this.addressId = addressId;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.dateOfBirth = dateOfBirth;
-    this.gender = gender;
-    this.phoneNumber = phoneNumber;
+      Long id,
+      String name,
+      String surname,
+      String email,
+      String password,
+      EmployeeRole role,
+      Double salary,
+      Date dateOfEmployment,
+      Long supervisorId) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.email = email;
+    this.password = password;
+    this.role = role;
+    this.salary = salary;
+    this.dateOfEmployment = dateOfEmployment;
+    this.supervisorId = supervisorId;
   }
 
   @Id
-  @Column(name = "EMPLOYEE_ID")
-  private Long employeeId;
+  @Column(name = "ID")
+  private Long id;
 
-  @Column(name = "ADDRESS_ID")
-  private Long addressId;
+  @Column(name = "NAME")
+  private String name;
 
-  @Column(name = "FIRST_NAME")
-  private String firstName;
+  @Column(name = "SURNAME")
+  private String surname;
 
-  @Column(name = "LAST_NAME")
-  private String lastName;
+  @Column(name = "EMAIL")
+  private String email;
 
-  @Column(name = "DATE_OF_BIRTH")
-  private java.sql.Date dateOfBirth;
+  @Column(name = "PASSWORD")
+  private String password;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "ROLE")
+  private EmployeeRole role;
 
-  @Column(name = "GENDER")
-  private String gender;
+  @Column(name = "SALARY")
+  private Double salary;
 
-  @Column(name = "PHONE_NUMBER")
-  private String phoneNumber;
+  @Column(name = "DATE_OF_EMPLOYMENT")
+  private java.sql.Date dateOfEmployment;
+
+  @Column(name = "SUPERVISOR_ID")
+  private Long supervisorId;
 }

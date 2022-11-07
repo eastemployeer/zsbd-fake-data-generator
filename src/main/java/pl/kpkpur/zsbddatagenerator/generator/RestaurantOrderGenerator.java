@@ -14,18 +14,18 @@ import org.springframework.stereotype.Component;
 import pl.kpkpur.zsbddatagenerator.model.Employment;
 import pl.kpkpur.zsbddatagenerator.model.EmploymentId;
 import pl.kpkpur.zsbddatagenerator.model.Restaurant;
-import pl.kpkpur.zsbddatagenerator.model.RestaurantOrder;
+import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import pl.kpkpur.zsbddatagenerator.model.Review;
 import pl.kpkpur.zsbddatagenerator.model.enums.PaymentMethod;
 import pl.kpkpur.zsbddatagenerator.util.Enums;
 
 @Component
-public class RestaurantOrderGenerator extends FakerGenerator<RestaurantOrder> {
+public class RestaurantOrderGenerator extends FakerGenerator<MovieVersion> {
   public RestaurantOrderGenerator(Faker faker) {
     super(faker);
   }
 
-  public RestaurantOrder generate(Restaurant restaurant, long employeeId, double avgRating) {
+  public MovieVersion generate(Restaurant restaurant, long employeeId, double avgRating) {
     Timestamp orderTime =
         generateOrderTime(
             Instant.ofEpochMilli(restaurant.getDateOfOpening().getTime()),
@@ -35,7 +35,7 @@ public class RestaurantOrderGenerator extends FakerGenerator<RestaurantOrder> {
             orderTime.toInstant().plusSeconds(1000), orderTime.toInstant().plusSeconds(7200));
     String remarks = faker.lorem().sentence(-1, 10);
 
-    return new RestaurantOrder(
+    return new MovieVersion(
         getNextId(),
         restaurant.getRestaurantId(),
         employeeId,
@@ -47,7 +47,7 @@ public class RestaurantOrderGenerator extends FakerGenerator<RestaurantOrder> {
         remarks.substring(0, remarks.length() - 1));
   }
 
-  public List<RestaurantOrder> generateMultiple(
+  public List<MovieVersion> generateMultiple(
       List<Restaurant> restaurants, List<Employment> employments, List<Review> reviews) {
     return restaurants.stream()
         .map(
@@ -71,7 +71,7 @@ public class RestaurantOrderGenerator extends FakerGenerator<RestaurantOrder> {
         .toList();
   }
 
-  private List<RestaurantOrder> generateOrdersForRestaurant(
+  private List<MovieVersion> generateOrdersForRestaurant(
       Restaurant restaurant, List<Long> restaurantEmployeeIds, double avgRating) {
     if (restaurantEmployeeIds.isEmpty()) {
       return Collections.emptyList();
@@ -89,8 +89,8 @@ public class RestaurantOrderGenerator extends FakerGenerator<RestaurantOrder> {
   }
 
   @Override
-  public RestaurantOrder generate() {
-    return new RestaurantOrder();
+  public MovieVersion generate() {
+    return new MovieVersion();
   }
 
   private long generateOrderCount(Restaurant restaurant) {

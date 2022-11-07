@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 import pl.kpkpur.zsbddatagenerator.model.Dish;
-import pl.kpkpur.zsbddatagenerator.model.RestaurantOrder;
+import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import pl.kpkpur.zsbddatagenerator.model.OrderedDish;
 import pl.kpkpur.zsbddatagenerator.model.OrderedDishId;
 
@@ -26,9 +26,9 @@ public class OrderedDishGenerator extends FakerGenerator<OrderedDish> {
   }
 
   public List<OrderedDish> generateMultiple(
-      List<RestaurantOrder> restaurantOrders, List<Dish> dishes) {
-    return restaurantOrders.stream()
-        .map(RestaurantOrder::getRestaurantOrderId)
+          List<MovieVersion> movieVersions, List<Dish> dishes) {
+    return movieVersions.stream()
+        .map(MovieVersion::getRestaurantOrderId)
         .flatMap(dishId -> generateOrderedDishesForOrder(dishId, dishes).stream())
         .toList();
   }

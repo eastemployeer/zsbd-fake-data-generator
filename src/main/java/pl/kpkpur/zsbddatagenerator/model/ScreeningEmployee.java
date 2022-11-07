@@ -1,25 +1,24 @@
 package pl.kpkpur.zsbddatagenerator.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
 
 @Data
 @Entity
-@Table(name = "INGREDIENT")
+@Table(name = "SCREENING_EMPLOYEE")
 @NoArgsConstructor
 public class ScreeningEmployee {
 
-  public ScreeningEmployee(ScreeningEmployeeId screeningEmployeeId, Long amount) {
+  public ScreeningEmployee(ScreeningEmployeeId screeningEmployeeId, ScreeningEmployeeResponsibility responsibility) {
     this.screeningEmployeeId = screeningEmployeeId;
-    this.amount = amount;
+    this.responsibility = responsibility;
   }
 
   @EmbeddedId private ScreeningEmployeeId screeningEmployeeId;
-
-  @Column(name = "AMOUNT")
-  private Long amount;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "RESPONSIBILITY")
+  private ScreeningEmployeeResponsibility responsibility;
 }

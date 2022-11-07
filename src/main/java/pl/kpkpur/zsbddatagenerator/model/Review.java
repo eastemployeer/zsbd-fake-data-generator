@@ -1,10 +1,8 @@
 package pl.kpkpur.zsbddatagenerator.model;
 
 import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,36 +12,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Review {
   public Review(
-      Long reviewId,
-      Long restaurantId,
+      ReviewId id,
       Long rating,
-      String reviewContent,
-      Date reviewDate,
-      String reviewerName) {
-    this.reviewId = reviewId;
-    this.restaurantId = restaurantId;
+      String description,
+      Date date,
+      Long likes) {
+    this.id = id;
     this.rating = rating;
-    this.reviewContent = reviewContent;
-    this.reviewDate = reviewDate;
-    this.reviewerName = reviewerName;
+    this.description = description;
+    this.date = date;
+    this.likes = likes;
   }
 
-  @Id
-  @Column(name = "REVIEW_ID")
-  private Long reviewId;
+  @EmbeddedId
+  private ReviewId id;
 
-  @Column(name = "RESTAURANT_ID")
-  private Long restaurantId;
+  @Column(name = "DESCRIPTION")
+  private String description;
 
   @Column(name = "RATING")
   private Long rating;
 
-  @Column(name = "REVIEW_CONTENT")
-  private String reviewContent;
+  @Column(name = "DATE")
+  private java.sql.Date date;
 
-  @Column(name = "REVIEW_DATE")
-  private java.sql.Date reviewDate;
-
-  @Column(name = "REVIEWER_NAME")
-  private String reviewerName;
+  @Column(name = "LIKES")
+  private Long likes;
 }

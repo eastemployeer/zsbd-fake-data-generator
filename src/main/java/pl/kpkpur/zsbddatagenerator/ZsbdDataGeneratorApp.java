@@ -31,7 +31,7 @@ import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployee;
 import pl.kpkpur.zsbddatagenerator.model.OrderedDish;
 import pl.kpkpur.zsbddatagenerator.model.Product;
 import pl.kpkpur.zsbddatagenerator.model.Restaurant;
-import pl.kpkpur.zsbddatagenerator.model.RestaurantOrder;
+import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import pl.kpkpur.zsbddatagenerator.model.Review;
 
 @SpringBootApplication
@@ -105,25 +105,25 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       sqlGenerator.write(employments);
       employees = null;
 
-      List<RestaurantOrder> restaurantOrders =
+      List<MovieVersion> movieVersions =
           restaurantOrderGenerator.generateMultiple(restaurants, employments, reviews);
-      System.out.println("Generated restaurantOrders: " + restaurantOrders.size());
+      System.out.println("Generated restaurantOrders: " + movieVersions.size());
       System.out.println(
           "Min tip: "
-              + restaurantOrders.stream().mapToLong(RestaurantOrder::getTip).min().orElse(0));
+              + movieVersions.stream().mapToLong(MovieVersion::getTip).min().orElse(0));
       System.out.println(
           "Max tip: "
-              + restaurantOrders.stream().mapToLong(RestaurantOrder::getTip).max().orElse(0));
-      sqlGenerator.write(restaurantOrders);
+              + movieVersions.stream().mapToLong(MovieVersion::getTip).max().orElse(0));
+      sqlGenerator.write(movieVersions);
       restaurants = null;
       reviews = null;
       employments = null;
 
       List<OrderedDish> orderedDishes =
-          orderedDishGenerator.generateMultiple(restaurantOrders, dishes);
+          orderedDishGenerator.generateMultiple(movieVersions, dishes);
       System.out.println("Generated orderedDishes: " + orderedDishes.size());
       sqlGenerator.write(orderedDishes);
-      restaurantOrders = null;
+      movieVersions = null;
       dishes = null;
       orderedDishes = null;
 
