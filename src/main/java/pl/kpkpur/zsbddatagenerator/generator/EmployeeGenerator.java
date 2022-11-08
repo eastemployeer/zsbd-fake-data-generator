@@ -25,7 +25,7 @@ public class EmployeeGenerator extends FakerGenerator<Employee> {
             lastName,
             faker.internet().emailAddress(
                     firstName.toLowerCase() + "."
-                            + lastName.toLowerCase()),
+                            + lastName.toLowerCase() + faker.number().digits(4)),
             generatePassword(),
             EmployeeRole.TICKETER,
             (double) faker.number().numberBetween(800, 8000),

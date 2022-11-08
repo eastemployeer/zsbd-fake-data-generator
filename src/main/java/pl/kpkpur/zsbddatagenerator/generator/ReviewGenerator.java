@@ -1,0 +1,63 @@
+package pl.kpkpur.zsbddatagenerator.generator;
+
+import com.github.javafaker.Faker;
+import org.springframework.stereotype.Component;
+import pl.kpkpur.zsbddatagenerator.model.Customer;
+import pl.kpkpur.zsbddatagenerator.model.Movie;
+import pl.kpkpur.zsbddatagenerator.model.Review;
+import pl.kpkpur.zsbddatagenerator.model.ReviewId;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.stream.Stream;
+
+@Component
+public class ReviewGenerator extends FakerGenerator<Review> {
+
+    public ReviewGenerator(Faker faker) {
+        super(faker);
+    }
+
+    @Override
+    public Review generate() {
+        return new Review();
+    }
+
+    public Review generate(Movie movie, Long customerId) {
+        return new Review(
+                new ReviewId(customerId, movie.getId()),
+                faker.number().numberBetween(1,10),
+                faker.lorem().paragraph(2),
+                generateReviewDate(movie),
+                faker.number().numberBetween(0,10000)
+        );
+    }
+
+    public List<Review> generateMultiple(List<Movie> movies, List<Customer> customers) {
+        return movies.stream()
+                .flatMap(movie -> generateReviewsForMovie(movie, customers).stream())
+                .toList();
+    }
+
+    private List<Review> generateReviewsForMovie(Movie movie, List<Customer> customers) {
+        return Stream.generate(
+                        () -> generate(movie,
+                                customers
+                                        .get(faker.random().nextInt(customers.size() - 1))
+                                        .getId()))
+                .limit(faker.number().numberBetween(0, 1000))
+                .toList();
+    }
+
+    private Date generateReviewDate(Movie movie) {
+        return Date.valueOf(
+                LocalDate.ofInstant(
+                        faker
+                                .date()
+                                .between(movie.getPremiereDate(), Date.valueOf(LocalDate.now()))
+                                .toInstant(),
+                        ZoneId.systemDefault()));
+    }
+}

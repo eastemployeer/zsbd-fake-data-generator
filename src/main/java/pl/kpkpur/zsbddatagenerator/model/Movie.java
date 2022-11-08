@@ -17,7 +17,7 @@ public class Movie {
       Long id,
       String title,
       String director,
-      Long length,
+      Integer length,
       Date premiereDate,
       String genre) {
     this.id = id;
@@ -39,7 +39,7 @@ public class Movie {
   private String director;
 
   @Column(name = "LENGTH")
-  private Long length;
+  private Integer length;
 
   @Column(name = "PREMIERE_DATE")
   private java.sql.Date premiereDate;
