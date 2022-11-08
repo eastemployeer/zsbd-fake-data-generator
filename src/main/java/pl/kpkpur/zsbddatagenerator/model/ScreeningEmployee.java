@@ -8,7 +8,7 @@ import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
 
 @Data
 @Entity
-@Table(name = "SCREENING_EMPLOYEE")
+@Table(name = "SCREENINGEMPLOYEE")
 @NoArgsConstructor
 public class ScreeningEmployee {
 

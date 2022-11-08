@@ -18,8 +18,8 @@ public class RoomGenerator extends FakerGenerator<Room> {
                 (long) faker.number().numberBetween(10, 20),
                 (long) faker.number().numberBetween(10, 20),
                 faker.company().name(),
-                faker.number().numberBetween(0, 1),
-                faker.number().numberBetween(0, 1)
+                faker.number().numberBetween(0, 2),
+                faker.number().numberBetween(0, 2)
         );
     }
 }

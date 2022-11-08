@@ -27,7 +27,6 @@ public class Customer {
         this.password = password;
         this.gender = gender;
         this.birthDate = birthDate;
-
     }
 
     @Id

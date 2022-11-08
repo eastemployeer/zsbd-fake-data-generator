@@ -33,7 +33,7 @@ public class Review {
   @Column(name = "RATING")
   private Integer rating;
 
-  @Column(name = "DATE")
+  @Column(name = "\"DATE\"")
   private java.sql.Date date;
 
   @Column(name = "LIKES")

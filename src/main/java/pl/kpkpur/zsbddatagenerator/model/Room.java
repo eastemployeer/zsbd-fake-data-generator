@@ -34,7 +34,7 @@ public class Room {
     @Column(name = "SEATS_IN_ROW")
     private Long seatsInRow;
 
-    @Column(name = "ROWS")
+    @Column(name = "\"ROWS\"")
     private Long rows;
 
     @Column(name = "SPONSOR")

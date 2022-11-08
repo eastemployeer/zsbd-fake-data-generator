@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "MOVIE_VERSION")
+@Table(name = "MOVIEVERSION")
 @NoArgsConstructor
 public class MovieVersion {
   public MovieVersion(

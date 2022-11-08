@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Component
-public class MovieVersionGenerator extends FakerGenerator<MovieVersion> {
+public class  MovieVersionGenerator extends FakerGenerator<MovieVersion> {
 
     public MovieVersionGenerator(Faker faker) {
         super(faker);
@@ -25,9 +25,9 @@ public class MovieVersionGenerator extends FakerGenerator<MovieVersion> {
                 getNextId(),
                 movie.getId(),
                 faker.nation().language(),
-                faker.number().numberBetween(0,1),
-                faker.number().numberBetween(0,1),
-                faker.number().numberBetween(0,1)
+                faker.number().numberBetween(0,2),
+                faker.number().numberBetween(0,2),
+                faker.number().numberBetween(0,2)
         );
     }
 
