@@ -24,7 +24,15 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
   EmployeeGenerator employeeGenerator;
   @Autowired
   RoomGenerator roomGenerator;
+  @Autowired
+  MovieGenerator movieGenerator;
+  @Autowired
+  MovieVersionGenerator movieVersionGenerator;
+  @Autowired
+  CustomerGenerator customerGenerator;
 
+  @Autowired
+  ReviewGenerator reviewGenerator;
   public static void main(String[] args) {
     SpringApplication.run(ZsbdDataGeneratorApp.class, args);
   }
@@ -44,6 +52,18 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
 
       List<Room> rooms = roomGenerator.generateMultiple(10);
       sqlGenerator.write(rooms);
+
+      List<Movie> movies = movieGenerator.generateMultiple(10);
+      sqlGenerator.write(movies);
+
+      List<MovieVersion> movieVersions = movieVersionGenerator.generateMultiple(movies);
+      sqlGenerator.write(movieVersions);
+
+      List<Customer> customers = customerGenerator.generateMultiple(10);
+      sqlGenerator.write(customers);
+
+      List<Review> reviews = reviewGenerator.generateMultiple(movies, customers);
+      sqlGenerator.write(reviews);
 
       fileWriter.write("ALTER SESSION SET cursor_sharing = exact;\n");
       fileWriter.write("\nSET DEFINE ON;");

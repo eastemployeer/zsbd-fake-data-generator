@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 public class Review {
   public Review(
       ReviewId id,
-      Long rating,
+      Integer rating,
       String description,
       Date date,
-      Long likes) {
+      Integer likes) {
     this.id = id;
     this.rating = rating;
     this.description = description;
@@ -31,11 +31,11 @@ public class Review {
   private String description;
 
   @Column(name = "RATING")
-  private Long rating;
+  private Integer rating;
 
   @Column(name = "DATE")
   private java.sql.Date date;
 
   @Column(name = "LIKES")
-  private Long likes;
+  private Integer likes;
 }

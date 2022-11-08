@@ -2,15 +2,11 @@ package pl.kpkpur.zsbddatagenerator.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.kpkpur.zsbddatagenerator.model.enums.DishCategory;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
