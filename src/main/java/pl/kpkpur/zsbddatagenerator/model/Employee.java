@@ -20,8 +20,7 @@ public class Employee {
       String password,
       EmployeeRole role,
       Double salary,
-      Date dateOfEmployment,
-      Long supervisorId) {
+      Date dateOfEmployment) {
     this.id = id;
     this.name = name;
     this.surname = surname;
@@ -30,7 +29,6 @@ public class Employee {
     this.role = role;
     this.salary = salary;
     this.dateOfEmployment = dateOfEmployment;
-    this.supervisorId = supervisorId;
   }
 
   @Id
@@ -48,6 +46,7 @@ public class Employee {
 
   @Column(name = "PASSWORD")
   private String password;
+
   @Enumerated(EnumType.STRING)
   @Column(name = "ROLE")
   private EmployeeRole role;

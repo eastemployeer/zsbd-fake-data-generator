@@ -4,10 +4,10 @@ import com.github.javafaker.Faker;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.List;
+
 import org.springframework.stereotype.Component;
-import pl.kpkpur.zsbddatagenerator.model.Address;
 import pl.kpkpur.zsbddatagenerator.model.Employee;
+import pl.kpkpur.zsbddatagenerator.model.enums.EmployeeRole;
 
 @Component
 public class EmployeeGenerator extends FakerGenerator<Employee> {
@@ -16,33 +16,35 @@ public class EmployeeGenerator extends FakerGenerator<Employee> {
     super(faker);
   }
 
-  public Employee generate(Address address) {
+  public Employee generate() {
+    var firstName = faker.name().firstName();
+    var lastName = faker.name().lastName();
     return new Employee(
-        getNextId(),
-        address.getAddressId(),
-        faker.name().firstName(),
-        faker.name().lastName(),
-        generateDateOfBirth(),
-        faker.demographic().sex(),
-        faker.phoneNumber().cellPhone());
+            getNextId(),
+            firstName,
+            lastName,
+            faker.internet().emailAddress(
+                    firstName.toLowerCase() + "."
+                            + lastName.toLowerCase()),
+            generatePassword(),
+            EmployeeRole.TICKETER,
+            (double) faker.number().numberBetween(800, 8000),
+            generateDateOfEmployment()
+    );
   }
 
-  private Date generateDateOfBirth() {
+  private String generatePassword() {
+    return faker.artist().name().replace(" ", "") + ((int) (Math.random() * 10));
+  }
+
+  private Date generateDateOfEmployment() {
     return Date.valueOf(
         LocalDate.ofInstant(
             faker
                 .date()
-                .between(Date.valueOf("1960-01-01"), Date.valueOf("2001-12-31"))
+                .between(Date.valueOf("2010-01-01"), Date.valueOf("2022-10-31"))
                 .toInstant(),
             ZoneId.systemDefault()));
   }
 
-  public List<Employee> generateMultiple(List<Address> addresses) {
-    return addresses.stream().map(this::generate).toList();
-  }
-
-  @Override
-  public Employee generate() {
-    return new Employee();
-  }
 }
