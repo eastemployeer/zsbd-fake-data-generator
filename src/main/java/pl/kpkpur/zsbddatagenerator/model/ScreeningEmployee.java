@@ -12,7 +12,8 @@ import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
 @NoArgsConstructor
 public class ScreeningEmployee {
 
-  public ScreeningEmployee(ScreeningEmployeeId screeningEmployeeId, ScreeningEmployeeResponsibility responsibility) {
+  public ScreeningEmployee(ScreeningEmployeeId screeningEmployeeId,
+                           ScreeningEmployeeResponsibility responsibility) {
     this.screeningEmployeeId = screeningEmployeeId;
     this.responsibility = responsibility;
   }

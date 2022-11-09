@@ -33,6 +33,12 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
 
   @Autowired
   ScreeningGenerator screeningGenerator;
+
+  @Autowired
+  ScreeningEmployeeGenerator screeningEmployeeGenerator;
+
+  @Autowired
+  TicketGenerator ticketGenerator;
   @Autowired
   ReviewGenerator reviewGenerator;
   public static void main(String[] args) {
@@ -64,8 +70,14 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       List<Screening> screenings = screeningGenerator.generateMultiple(rooms, movieVersions);
       sqlGenerator.write(screenings);
 
+      List<ScreeningEmployee> screeningEmployees = screeningEmployeeGenerator.generateMultiple(screenings, employees);
+      sqlGenerator.write(screeningEmployees);
+
       List<Customer> customers = customerGenerator.generateMultiple(10);
       sqlGenerator.write(customers);
+
+      List<Ticket> tickets = ticketGenerator.generateMultiple(customers, screenings, employees);
+      sqlGenerator.write(tickets);
 
       List<Review> reviews = reviewGenerator.generateMultiple(movies, customers);
       sqlGenerator.write(reviews);
