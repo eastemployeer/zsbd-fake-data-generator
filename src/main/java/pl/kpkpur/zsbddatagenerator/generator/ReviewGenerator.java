@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.lang.Integer.min;
+
 @Component
 public class ReviewGenerator extends FakerGenerator<Review> {
 
@@ -45,12 +47,14 @@ public class ReviewGenerator extends FakerGenerator<Review> {
     private List<Review> generateReviewsForMovie(Movie movie, List<Customer> customers) {
         List<Customer> unusedCustomers = new LinkedList<>(customers);
 
+        int maxReviews = min(1000, customers.size());
+
         return Stream.generate(
                         () -> generate(movie,
                                 unusedCustomers
                                         .remove(faker.number().numberBetween(0, unusedCustomers.size()))
                                         .getId()))
-                .limit(faker.number().numberBetween(0, 1000))
+                .limit(faker.number().numberBetween(0, maxReviews))
                 .toList();
     }
 

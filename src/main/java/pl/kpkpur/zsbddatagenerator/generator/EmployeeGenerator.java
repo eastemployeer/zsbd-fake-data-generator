@@ -53,7 +53,6 @@ public class EmployeeGenerator extends FakerGenerator<Employee> {
                         firstName.toLowerCase() + "."
                                 + lastName.toLowerCase() + faker.number().digits(4)),
                 generatePassword(),
-                EmployeeRole.TICKETER,
                 salary,
                 generateDateOfEmployment(),
                 supervisorId

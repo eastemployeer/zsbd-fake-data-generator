@@ -22,7 +22,7 @@ public class ScreeningGenerator extends FakerGenerator<Screening> {
     }
 
     public Screening generate(Room room, MovieVersion movieVersion, LocalDateTime dateTime) {
-        var isPremiere = false; //LocalDate(movie.getPremiereDate()).equals(dateTime.toDateTime())
+        var isPremiere = movieVersion.getMovie().getPremiereDate().toLocalDate().equals(dateTime.toLocalDate());
         var isDiscountable = !isPremiere;
         var price = isPremiere ? 29.99 : List.of(14.99, 19.99, 22.99).get(faker.random().nextInt(2));
         return new Screening(
