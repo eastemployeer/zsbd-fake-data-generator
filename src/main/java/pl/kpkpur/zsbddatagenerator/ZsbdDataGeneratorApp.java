@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import pl.kpkpur.zsbddatagenerator.config.GenerationConfig;
 import pl.kpkpur.zsbddatagenerator.generator.*;
 import pl.kpkpur.zsbddatagenerator.model.*;
 
@@ -55,7 +56,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       fileWriter.write("SET DEFINE OFF;\n");
       fileWriter.write("ALTER SESSION SET cursor_sharing = force;\n");
 
-      List<Employee> employees = employeeGenerator.generateMultiple(10);
+      List<Employee> employees = employeeGenerator.generateMultiple(GenerationConfig.NUMBER_OF_EMPLOYEES);
       sqlGenerator.write(employees);
 
       List<Room> rooms = roomGenerator.generateMultiple(10);
