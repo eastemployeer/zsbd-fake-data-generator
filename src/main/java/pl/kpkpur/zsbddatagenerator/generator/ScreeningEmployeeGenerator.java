@@ -9,8 +9,12 @@ import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployeeId;
 import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
 import pl.kpkpur.zsbddatagenerator.util.Enums;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Component
 public class ScreeningEmployeeGenerator extends FakerGenerator<ScreeningEmployee> {
@@ -36,10 +40,13 @@ public class ScreeningEmployeeGenerator extends FakerGenerator<ScreeningEmployee
     }
 
     private List<ScreeningEmployee> generateEmployeesForScreening(Screening screening, List<Employee> employees) {
-        return IntStream.of(1, 2, 3)
-                .boxed()
-                .map(num -> generate(screening, employees.get(faker.random().nextInt(employees.size() - 1))))
-                .toList();
+        Set<ScreeningEmployee> screeningEmployees = new HashSet<>();
+        while(screeningEmployees.size() != 3) {
+            screeningEmployees.add(
+                    generate(screening, employees.get(faker.random().nextInt(employees.size() - 1)))
+            );
+        }
+        return screeningEmployees.stream().toList();
     }
 
     private ScreeningEmployee generate(Screening screening, Employee employee) {
