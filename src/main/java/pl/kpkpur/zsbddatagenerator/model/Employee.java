@@ -12,15 +12,17 @@ import pl.kpkpur.zsbddatagenerator.model.enums.EmployeeRole;
 @Table(name = "EMPLOYEE")
 @NoArgsConstructor
 public class Employee {
+
   public Employee(
-      Long id,
-      String name,
-      String surname,
-      String email,
-      String password,
-      EmployeeRole role,
-      Double salary,
-      Date dateOfEmployment) {
+          Long id,
+          String name,
+          String surname,
+          String email,
+          String password,
+          EmployeeRole role,
+          Double salary,
+          Date dateOfEmployment,
+          Long supervisorId) {
     this.id = id;
     this.name = name;
     this.surname = surname;
@@ -29,6 +31,7 @@ public class Employee {
     this.role = role;
     this.salary = salary;
     this.dateOfEmployment = dateOfEmployment;
+    this.supervisorId = supervisorId;
   }
 
   @Id
