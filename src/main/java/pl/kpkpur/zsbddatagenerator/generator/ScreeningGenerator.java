@@ -2,6 +2,7 @@ package pl.kpkpur.zsbddatagenerator.generator;
 
 import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
+import pl.kpkpur.zsbddatagenerator.config.GenerationConfig;
 import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import pl.kpkpur.zsbddatagenerator.model.Room;
 import pl.kpkpur.zsbddatagenerator.model.Screening;
@@ -54,8 +55,7 @@ public class ScreeningGenerator extends FakerGenerator<Screening> {
     }
 
     private List<Screening> generateScreeningsForRoom(Room room, List<MovieVersion> movieVersions) {
-        var numberOfDaysBack = 10;
-        var dateTimes = IntStream.range(0, numberOfDaysBack)
+        var dateTimes = IntStream.range(0, GenerationConfig.NUMBER_OF_SCREENING_DAYS)
                 .boxed()
                 .map(dayNo -> LocalDate.now().minusDays(dayNo))
                 .flatMap(day -> IntStream.of(0, 1, 2)
