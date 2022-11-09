@@ -23,7 +23,7 @@ public class  MovieVersionGenerator extends FakerGenerator<MovieVersion> {
     public MovieVersion generate(Movie movie) {
         return new MovieVersion(
                 getNextId(),
-                movie.getId(),
+                movie,
                 faker.nation().language(),
                 faker.number().numberBetween(0,2),
                 faker.number().numberBetween(0,2),

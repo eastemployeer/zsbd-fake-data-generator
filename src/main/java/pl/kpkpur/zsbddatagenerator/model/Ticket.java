@@ -46,7 +46,7 @@ public class Ticket {
     @Column(name = "EMPLOYEE_ID")
     private Long employeeId;
 
-    @Column(name = "ROW")
+    @Column(name = "\"ROW\"")
     private String row;
 
     @Column(name = "SEAT")

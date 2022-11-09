@@ -73,7 +73,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       List<ScreeningEmployee> screeningEmployees = screeningEmployeeGenerator.generateMultiple(screenings, employees);
       sqlGenerator.write(screeningEmployees);
 
-      List<Customer> customers = customerGenerator.generateMultiple(10);
+      List<Customer> customers = customerGenerator.generateMultiple(1000);
       sqlGenerator.write(customers);
 
       List<Ticket> tickets = ticketGenerator.generateMultiple(customers, screenings, employees);
