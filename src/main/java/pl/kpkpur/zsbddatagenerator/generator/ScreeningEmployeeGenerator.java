@@ -2,13 +2,11 @@ package pl.kpkpur.zsbddatagenerator.generator;
 
 import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
-import pl.kpkpur.zsbddatagenerator.model.Employee;
-import pl.kpkpur.zsbddatagenerator.model.Screening;
-import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployee;
-import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployeeId;
+import pl.kpkpur.zsbddatagenerator.model.*;
 import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
 import pl.kpkpur.zsbddatagenerator.util.Enums;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -36,9 +34,11 @@ public class ScreeningEmployeeGenerator extends FakerGenerator<ScreeningEmployee
     }
 
     private List<ScreeningEmployee> generateEmployeesForScreening(Screening screening, List<Employee> employees) {
+        List<Employee> unusedEmployees = new LinkedList<>(employees);
+
         return IntStream.of(1, 2, 3)
                 .boxed()
-                .map(num -> generate(screening, employees.get(faker.random().nextInt(employees.size() - 1))))
+                .map(num -> generate(screening, unusedEmployees.remove(faker.random().nextInt(unusedEmployees.size() - 1))))
                 .toList();
     }
 

@@ -1,9 +1,7 @@
 package pl.kpkpur.zsbddatagenerator.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,13 +12,14 @@ import lombok.NoArgsConstructor;
 public class MovieVersion {
   public MovieVersion(
       Long id,
-      Long movieId,
+      Movie movie,
       String language,
       Integer hasSubtitles,
       Integer is3d,
       Integer isAtmos) {
     this.id = id;
-    this.movieId = movieId;
+    this.movie = movie;
+    this.movieId = movie.getId();
     this.language = language;
     this.hasSubtitles = hasSubtitles;
     this.is3d = is3d;
@@ -45,4 +44,7 @@ public class MovieVersion {
 
   @Column(name = "IS_ATMOS")
   private Integer isAtmos;
+
+  @Transient
+  private Movie movie;
 }

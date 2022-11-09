@@ -14,7 +14,7 @@ public class RoomGenerator extends FakerGenerator<Room> {
     @Override
     public Room generate() {
         return new Room(
-                faker.artist().name(),
+                "Room " + getNextId(),
                 (long) faker.number().numberBetween(10, 20),
                 (long) faker.number().numberBetween(10, 20),
                 faker.company().name(),
