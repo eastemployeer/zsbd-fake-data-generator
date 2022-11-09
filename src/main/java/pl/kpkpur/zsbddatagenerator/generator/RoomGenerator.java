@@ -4,6 +4,9 @@ import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 import pl.kpkpur.zsbddatagenerator.model.Room;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class RoomGenerator extends FakerGenerator<Room> {
 
@@ -11,10 +14,16 @@ public class RoomGenerator extends FakerGenerator<Room> {
         super(faker);
     }
 
+    Set<String> generatedNames = new HashSet<>();
+
     @Override
     public Room generate() {
+        String name;
+        do {
+            name = faker.artist().name();
+        } while(generatedNames.contains(name));
         return new Room(
-                faker.artist().name(),
+                name,
                 (long) faker.number().numberBetween(10, 20),
                 (long) faker.number().numberBetween(10, 20),
                 faker.company().name(),
