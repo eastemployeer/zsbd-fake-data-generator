@@ -10,6 +10,7 @@ import pl.kpkpur.zsbddatagenerator.model.ReviewId;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -42,10 +43,12 @@ public class ReviewGenerator extends FakerGenerator<Review> {
     }
 
     private List<Review> generateReviewsForMovie(Movie movie, List<Customer> customers) {
+        List<Customer> unusedCustomers = new LinkedList<>(customers);
+
         return Stream.generate(
                         () -> generate(movie,
-                                customers
-                                        .get(faker.random().nextInt(customers.size() - 1))
+                                unusedCustomers
+                                        .remove(faker.number().numberBetween(0, unusedCustomers.size()))
                                         .getId()))
                 .limit(faker.number().numberBetween(0, 1000))
                 .toList();
