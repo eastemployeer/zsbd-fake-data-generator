@@ -32,6 +32,8 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
   CustomerGenerator customerGenerator;
 
   @Autowired
+  ScreeningGenerator screeningGenerator;
+  @Autowired
   ReviewGenerator reviewGenerator;
   public static void main(String[] args) {
     SpringApplication.run(ZsbdDataGeneratorApp.class, args);
@@ -58,6 +60,9 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
 
       List<MovieVersion> movieVersions = movieVersionGenerator.generateMultiple(movies);
       sqlGenerator.write(movieVersions);
+
+      List<Screening> screenings = screeningGenerator.generateMultiple(rooms, movieVersions);
+      sqlGenerator.write(screenings);
 
       List<Customer> customers = customerGenerator.generateMultiple(10);
       sqlGenerator.write(customers);
