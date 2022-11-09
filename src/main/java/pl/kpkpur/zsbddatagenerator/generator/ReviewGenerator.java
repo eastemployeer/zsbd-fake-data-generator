@@ -47,7 +47,7 @@ public class ReviewGenerator extends FakerGenerator<Review> {
     private List<Review> generateReviewsForMovie(Movie movie, List<Customer> customers) {
         List<Customer> unusedCustomers = new LinkedList<>(customers);
 
-        int maxReviews = min(1000, customers.size());
+        int maxReviews = min(500, customers.size());
 
         return Stream.generate(
                         () -> generate(movie,
