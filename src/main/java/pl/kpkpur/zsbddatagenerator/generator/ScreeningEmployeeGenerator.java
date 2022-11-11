@@ -7,14 +7,11 @@ import pl.kpkpur.zsbddatagenerator.model.Screening;
 import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployee;
 import pl.kpkpur.zsbddatagenerator.model.ScreeningEmployeeId;
 import pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility;
-import pl.kpkpur.zsbddatagenerator.util.Enums;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.*;
+
+import static pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility.*;
+import static pl.kpkpur.zsbddatagenerator.model.enums.ScreeningEmployeeResponsibility.CLEANER;
 
 @Component
 public class ScreeningEmployeeGenerator extends FakerGenerator<ScreeningEmployee> {
@@ -40,19 +37,23 @@ public class ScreeningEmployeeGenerator extends FakerGenerator<ScreeningEmployee
     }
 
     private List<ScreeningEmployee> generateEmployeesForScreening(Screening screening, List<Employee> employees) {
-        Set<ScreeningEmployee> screeningEmployees = new HashSet<>();
-        while(screeningEmployees.size() != 3) {
-            screeningEmployees.add(
-                    generate(screening, employees.get(faker.random().nextInt(employees.size() - 1)))
-            );
+        Set<Employee> candidateEmployees = new HashSet<>();
+        Queue<ScreeningEmployeeResponsibility> responsibilities = new LinkedList<>(
+                List.of(CLEANER, CLEANER, ROOM_CONTROLLER)
+        );
+        while (candidateEmployees.size() != 3) {
+            candidateEmployees.add(employees.get(faker.random().nextInt(employees.size() - 1)));
         }
-        return screeningEmployees.stream().toList();
+        return candidateEmployees.stream()
+                .map(emp -> generate(screening, emp, responsibilities.poll()))
+                .toList();
     }
 
-    private ScreeningEmployee generate(Screening screening, Employee employee) {
+    private ScreeningEmployee generate(Screening screening, Employee employee,
+                                       ScreeningEmployeeResponsibility responsibility) {
         return new ScreeningEmployee(
                 new ScreeningEmployeeId(employee.getId(), screening.getId()),
-                Enums.getRandomValue(ScreeningEmployeeResponsibility.class)
+                responsibility
         );
     }
 }
