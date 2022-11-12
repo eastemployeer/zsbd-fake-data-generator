@@ -6,8 +6,8 @@ import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import pl.kpkpur.zsbddatagenerator.model.Room;
 import pl.kpkpur.zsbddatagenerator.model.Screening;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ScreeningGenerator extends FakerGenerator<Screening> {
     public Screening generate(Room room, MovieVersion movieVersion, LocalDateTime screeningDateTime) {
         var isPremiere = movieVersion.getMovie().getPremiereDate().toLocalDate().equals(screeningDateTime.toLocalDate());
         var isDiscountable = !isPremiere;
-        var price = isPremiere ? SCREENING_PREMIERE_PRICE : SCREENING_NORMAL_PRICES_LIST[faker.random().nextInt(2)]; //TODO: Set the price depending on the weekend
+        var price = isPremiere ? SCREENING_PREMIERE_PRICE : SCREENING_NORMAL_PRICES_LIST[faker.random().nextInt(2)]; //TODO: Set the price depending on the weekend?
         return new Screening(
                 getNextId(),
                 room,
@@ -57,7 +57,7 @@ public class ScreeningGenerator extends FakerGenerator<Screening> {
     private List<Screening> generateScreeningsForRoom(Room room, List<MovieVersion> movieVersions) {
         var dateTimes = IntStream.range(0, SCREENING_NUMBER_OF_DAYS_PER_ROOM)
                 .boxed()
-                .map(dayNo -> LocalDate.now().minusDays(dayNo)) //Screenings for n days in the past since today
+                .map(dayNo -> Date.valueOf(NOW_DATE).toLocalDate().minusDays(dayNo)) //Screenings for n days in the past since today
                 .flatMap(day -> Arrays.stream(SCREENING_DAILY_SCREENINGS_LIST) //n screenings per day
                         .boxed()
                         .map(screeningNo -> LocalDateTime.of(day, SCREENING_TIME_START) //first screening at hour
