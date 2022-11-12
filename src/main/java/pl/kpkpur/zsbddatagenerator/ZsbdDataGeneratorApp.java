@@ -280,7 +280,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
                         ticket.getEmployeeId(),
                         ticket.getRow(),
                         ticket.getSeat(),
-                        ticket.getDiscount(),
+                        String.format("%.2f", ticket.getDiscount()),
                         ticket.getPurchaseDatetime()
                 );
             }

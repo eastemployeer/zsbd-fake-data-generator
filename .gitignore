@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-/generation_output/
+/generation_output/*.csv
+/generation_output/*.bad
+/generation_output/*.log
