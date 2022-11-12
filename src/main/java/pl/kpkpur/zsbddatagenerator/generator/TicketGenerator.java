@@ -8,11 +8,14 @@ import pl.kpkpur.zsbddatagenerator.model.Screening;
 import pl.kpkpur.zsbddatagenerator.model.Ticket;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Stream;
+
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.*;
 
 @Component
 public class TicketGenerator extends FakerGenerator<Ticket> {
@@ -25,12 +28,12 @@ public class TicketGenerator extends FakerGenerator<Ticket> {
 
     @Override
     public Ticket generate() {
-        throw new IllegalCallerException("Nope");
+        throw new IllegalCallerException("Cannot generate Tickets without passing lists of Customers, Screenings and Employees!");
     }
 
     @Override
     public List<Ticket> generateMultiple(int count) {
-        throw new IllegalCallerException("Nope");
+        throw new IllegalCallerException("Cannot generate Tickets without passing lists of Customers, Screenings and Employees!");
     }
 
     public List<Ticket> generateMultiple(List<Customer> customers, List<Screening> screenings, List<Employee> employees) {
@@ -44,15 +47,15 @@ public class TicketGenerator extends FakerGenerator<Ticket> {
         return Stream.generate(() -> generate(screening,
                         customers.get(faker.random().nextInt(customers.size() - 1)),
                         employees.get(faker.random().nextInt(employees.size() - 1))))
-                .limit(faker.random().nextInt(10, 100))
+                .limit(faker.random().nextInt(MIN_TICKETS_PER_SCREENING, MAX_TICKETS_PER_SCREENING))
                 .toList();
     }
 
     private Ticket generate(Screening screening, Customer customer, Employee employee) {
-        Character row = (char) (faker.random().nextInt(10) + 'a');
-        Integer seat = faker.random().nextInt(10);
+        char row = (char) (faker.random().nextInt(screening.getRoom().getRows()) + 'a');
+        int seat = faker.random().nextInt(screening.getRoom().getSeatsInRow());
 
-
+        //we don't want to take the same seat again for the same screening
         screeningToTakenSeat.putIfAbsent(screening.getId(), new HashSet<>());
         var takenSeats = screeningToTakenSeat.get(screening.getId());
         if (takenSeats.contains("" + row + seat)) {
@@ -72,10 +75,30 @@ public class TicketGenerator extends FakerGenerator<Ticket> {
                 screening.getId(),
                 customer.getId(),
                 employee.getId(),
-                row.toString(),
-                seat.toString(),
+                Character.toString(row),
+                Integer.toString(seat),
                 0.0,
                 Timestamp.from(date)
         );
+    }
+
+    //TODO: Finish discount generation depending on the customer age
+    private Double generateDiscount(Screening screening, Customer customer) {
+
+        //if screening is premiere we don't allow discounts
+        if (screening.getIsPremiere() == 1) {
+            return 0.0;
+        }
+
+        LocalDate customerBirthLocalDate = LocalDate.ofInstant(customer.getBirthDate().toInstant(), ZoneId.systemDefault());
+
+        int customerAgeInYears = Period.between(customerBirthLocalDate,
+                LocalDate.ofInstant(java.sql.Date.valueOf(NOW_DATE).toInstant(), ZoneId.systemDefault())).getYears();
+
+        if (customerAgeInYears < 18) {
+            return 0.0;
+        }
+
+        return 0.0;
     }
 }

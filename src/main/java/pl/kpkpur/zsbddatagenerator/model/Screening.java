@@ -1,60 +1,19 @@
 package pl.kpkpur.zsbddatagenerator.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Data
-@Entity
-@Table(name = "SCREENING")
-@NoArgsConstructor
+@AllArgsConstructor
 public class Screening {
-  public Screening(
-      Long id,
-      String roomName,
-      Long movieVersionId,
-      Timestamp datetime,
-      Integer isPremiere,
-      Integer isDiscountable,
-      Long adsLength,
-      Double price) {
-    this.id = id;
-    this.price = price;
-    this.roomName = roomName;
-    this.movieVersionId = movieVersionId;
-    this.datetime = datetime;
-    this.isPremiere = isPremiere;
-    this.isDiscountable = isDiscountable;
-    this.adsLength = adsLength;
-  }
-
-  @Id
-  @Column(name = "ID")
   private Long id;
-
-  @Column(name = "PRICE")
-  private Double price;
-
-  @Column(name = "ROOM_NAME")
-  private String roomName;
-
-  @Column(name = "IS_PREMIERE")
-  private Integer isPremiere;
-
-  @Column(name = "IS_DISCOUNTABLE")
-  private Integer isDiscountable;
-
-  @Column(name = "DATETIME")
-  private Timestamp datetime;
-
-  @Column(name = "ADS_LENGTH")
-  private Long adsLength;
-
-  @Column(name = "MOVIE_VERSION_ID")
+  private Room room;
   private Long movieVersionId;
+  private Timestamp datetime;
+  private Integer isPremiere;
+  private Integer isDiscountable;
+  private Integer adsLength;
+  private Double price;
 }

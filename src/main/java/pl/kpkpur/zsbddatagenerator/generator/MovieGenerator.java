@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
+
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.*;
+
 @Component
 public class MovieGenerator extends FakerGenerator<Movie> {
 
@@ -23,7 +26,7 @@ public class MovieGenerator extends FakerGenerator<Movie> {
                 getNextId(),
                 generateUniqueTitle(),
                 faker.book().author(),
-                faker.number().numberBetween(15, 180),
+                faker.number().numberBetween(MIN_MOVIE_LENGTH_IN_MINUTES, MAX_MOVIE_LENGTH_IN_MINUTES),
                 generatePremiereDate(),
                 faker.book().genre()
         );
@@ -52,7 +55,7 @@ public class MovieGenerator extends FakerGenerator<Movie> {
                 LocalDate.ofInstant(
                         faker
                                 .date()
-                                .between(Date.valueOf("1960-01-01"), Date.valueOf("2001-12-31"))
+                                .between(Date.valueOf(MOVIE_PREMIERE_DATE_START), Date.valueOf(MOVIE_PREMIERE_DATE_END))
                                 .toInstant(),
                         ZoneId.systemDefault()));
     }

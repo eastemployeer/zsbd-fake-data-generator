@@ -7,9 +7,15 @@ import pl.kpkpur.zsbddatagenerator.model.Customer;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashSet;
+import java.util.Set;
+
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.*;
 
 @Component
 public class CustomerGenerator extends FakerGenerator<Customer> {
+
+    private final Set<String> alreadyGeneratedEmails = new HashSet<>();
 
     public CustomerGenerator(Faker faker) {
         super(faker);
@@ -21,27 +27,37 @@ public class CustomerGenerator extends FakerGenerator<Customer> {
         var lastName = faker.name().lastName();
         return new Customer(
                 getNextId(),
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(
-                        firstName.toLowerCase() + "."
-                                + lastName.toLowerCase() + faker.number().digits(4)),
-                generatePassword(),
+                firstName,
+                lastName,
+                generateUniqueEmail(firstName, lastName),
+                faker.internet().password(),
                 faker.demographic().sex(),
-                generateDateOfBirth()
+                generateBirthDate()
         );
     }
 
-    private String generatePassword() {
-        return faker.artist().name().replace(" ", "") + ((int) (Math.random() * 10));
+    private String generateUniqueEmail(String firstName, String lastName) {
+        String email = generateEmail(firstName, lastName);
+        while (alreadyGeneratedEmails.contains(email)) {
+            email = generateEmail(firstName, lastName);
+        }
+        alreadyGeneratedEmails.add(email);
+
+        return email;
     }
 
-    private Date generateDateOfBirth() {
+    private String generateEmail(String firstName, String lastName) {
+        return faker.internet().emailAddress(
+                firstName.toLowerCase() + "."
+                        + lastName.toLowerCase() + faker.number().digits(4));
+    }
+
+    private Date generateBirthDate() {
         return Date.valueOf(
                 LocalDate.ofInstant(
                         faker
                                 .date()
-                                .between(Date.valueOf("1960-01-01"), Date.valueOf("2012-12-31"))
+                                .between(Date.valueOf(CUSTOMER_BIRTHDATE_START), Date.valueOf(CUSTOMER_BIRTHDATE_END))
                                 .toInstant(),
                         ZoneId.systemDefault()));
     }

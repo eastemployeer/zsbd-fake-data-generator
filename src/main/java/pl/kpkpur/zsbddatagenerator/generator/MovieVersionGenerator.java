@@ -8,8 +8,11 @@ import pl.kpkpur.zsbddatagenerator.model.MovieVersion;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.MAX_MOVIE_VERSIONS_PER_MOVIE;
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.MIN_MOVIE_VERSIONS_PER_MOVIE;
+
 @Component
-public class  MovieVersionGenerator extends FakerGenerator<MovieVersion> {
+public class MovieVersionGenerator extends FakerGenerator<MovieVersion> {
 
     public MovieVersionGenerator(Faker faker) {
         super(faker);
@@ -17,7 +20,7 @@ public class  MovieVersionGenerator extends FakerGenerator<MovieVersion> {
 
     @Override
     public MovieVersion generate() {
-        return new MovieVersion();
+        throw new IllegalCallerException("Cannot generate MovieVersion without passing list of Movies!");
     }
 
     public MovieVersion generate(Movie movie) {
@@ -40,7 +43,7 @@ public class  MovieVersionGenerator extends FakerGenerator<MovieVersion> {
 
     private List<MovieVersion> generateMovieVersionsForMovies(Movie movie) {
         return Stream.generate(() -> generate(movie))
-                .limit(faker.number().numberBetween(1, 3))
+                .limit(faker.number().numberBetween(MIN_MOVIE_VERSIONS_PER_MOVIE, MAX_MOVIE_VERSIONS_PER_MOVIE))
                 .toList();
     }
 }

@@ -7,15 +7,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class FakerGenerator<T> implements Generator<T> {
-  protected final Faker faker;
-  private long idCounter = 0;
+    protected final Faker faker;
+    private Long idCounter = 0L;
 
-  protected long getNextId() {
-    return ++idCounter;
-  }
+    protected Long getNextId() {
+        return ++idCounter;
+    }
 
-  @Override
-  public List<T> generateMultiple(int count) {
-    return Stream.generate(this::generate).limit(count).toList();
-  }
+    @Override
+    public List<T> generateMultiple(int count) {
+        return Stream.generate(this::generate).limit(count).toList();
+    }
 }
