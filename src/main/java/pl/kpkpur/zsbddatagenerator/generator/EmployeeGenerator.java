@@ -4,7 +4,6 @@ import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 import pl.kpkpur.zsbddatagenerator.config.GenerationConfig;
 import pl.kpkpur.zsbddatagenerator.model.Employee;
-import pl.kpkpur.zsbddatagenerator.model.enums.EmployeeRole;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -18,8 +17,6 @@ public class EmployeeGenerator extends FakerGenerator<Employee> {
     public EmployeeGenerator(Faker faker) {
         super(faker);
     }
-
-    private static int MAX_SUBORDINATES = 3;
 
     List<Employee> employees = new ArrayList<>();
 
@@ -35,14 +32,14 @@ public class EmployeeGenerator extends FakerGenerator<Employee> {
             currentSupervisorIndex = 0;
             currentSupervisorSubordinates = 0;
         } else {
-            if (currentSupervisorSubordinates >= MAX_SUBORDINATES) {
+            if (currentSupervisorSubordinates >= GenerationConfig.MAX_NUMBER_OF_SUBORDINATES) {
                 currentSupervisorIndex += 1;
                 currentSupervisorSubordinates = 0;
             }
             supervisorId = employees.get(currentSupervisorIndex).getId();
             currentSupervisorSubordinates += 1;
         }
-        var salary = 800.0 + (8000 - 800)
+        var salary = 800.0 + (8000.0 - 800)
                 * ((double)(GenerationConfig.NUMBER_OF_EMPLOYEES - id) / GenerationConfig.NUMBER_OF_EMPLOYEES);
 
         var employee = new Employee(

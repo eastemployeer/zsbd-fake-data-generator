@@ -16,18 +16,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.kpkpur.zsbddatagenerator.generator.*;
 import pl.kpkpur.zsbddatagenerator.model.*;
 
+import static pl.kpkpur.zsbddatagenerator.config.GenerationConfig.*;
+
 @SpringBootApplication
 public class ZsbdDataGeneratorApp implements CommandLineRunner {
-  private static final String GENERATION_DIRECTORY_PATH = "./generation_output";
-  private static final String FILE_PATH = GENERATION_DIRECTORY_PATH + "/insert_generated_data.sql";
+
   @Autowired
   EmployeeGenerator employeeGenerator;
+
   @Autowired
   RoomGenerator roomGenerator;
+
   @Autowired
   MovieGenerator movieGenerator;
+
   @Autowired
   MovieVersionGenerator movieVersionGenerator;
+
   @Autowired
   CustomerGenerator customerGenerator;
 
@@ -39,8 +44,10 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
 
   @Autowired
   TicketGenerator ticketGenerator;
+
   @Autowired
   ReviewGenerator reviewGenerator;
+
   public static void main(String[] args) {
     SpringApplication.run(ZsbdDataGeneratorApp.class, args);
   }
@@ -55,15 +62,15 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       fileWriter.write("SET DEFINE OFF;\n");
       fileWriter.write("ALTER SESSION SET cursor_sharing = force;\n");
 
-      List<Employee> employees = employeeGenerator.generateMultiple(10000);
+      List<Employee> employees = employeeGenerator.generateMultiple(NUMBER_OF_EMPLOYEES);
       System.out.println("Generated employees: " + employees.size());
       sqlGenerator.write(employees);
 
-      List<Room> rooms = roomGenerator.generateMultiple(200);
+      List<Room> rooms = roomGenerator.generateMultiple(NUMBER_OF_ROOMS);
       System.out.println("Generated rooms: " + rooms.size());
       sqlGenerator.write(rooms);
 
-      List<Movie> movies = movieGenerator.generateMultiple(10000);
+      List<Movie> movies = movieGenerator.generateMultiple(NUMBER_OF_MOVIES);
       System.out.println("Generated movies: " + movies.size());
       sqlGenerator.write(movies);
 
@@ -79,7 +86,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
       System.out.println("Generated screening employees: " + screeningEmployees.size());
       sqlGenerator.write(screeningEmployees);
 
-      List<Customer> customers = customerGenerator.generateMultiple(100000);
+      List<Customer> customers = customerGenerator.generateMultiple(NUMBER_OF_CUSTOMERS);
       System.out.println("Generated customers: " + customers.size());
       sqlGenerator.write(customers);
 
