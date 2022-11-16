@@ -71,7 +71,8 @@ public class GenerationConfig {
     public static final double[] SCREENING_NORMAL_PRICES_LIST = {14.99, 19.99, 22.99}; //MUST be 3 prices
     public static final int MIN_SCREENING_ADS_LENGTH_IN_MINUTES = 10;
     public static final int MAX_SCREENING_ADS_LENGTH_IN_MINUTES = 30;
-    public static final int SCREENING_NUMBER_OF_DAYS_PER_ROOM = 30;
+    public static final int SCREENING_DAYS_AHEAD_OF_NOW = 30;
+    public static final int SCREENING_DAYS = 30;
     public static final int[] SCREENING_DAILY_SCREENINGS_LIST = {0, 1, 2};
     public static final LocalTime SCREENING_TIME_START = LocalTime.NOON;
     public static final long SCREENING_TIME_INTERVAL_IN_HOURS = 3L;

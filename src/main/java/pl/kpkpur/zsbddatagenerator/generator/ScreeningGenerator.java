@@ -55,9 +55,11 @@ public class ScreeningGenerator extends FakerGenerator<Screening> {
     }
 
     private List<Screening> generateScreeningsForRoom(Room room, List<MovieVersion> movieVersions) {
-        var dateTimes = IntStream.range(0, SCREENING_NUMBER_OF_DAYS_PER_ROOM)
+        var screeningsEndDate = Date.valueOf(NOW_DATE).toLocalDate()
+                .plusDays(SCREENING_DAYS_AHEAD_OF_NOW);
+        var dateTimes = IntStream.range(0, SCREENING_DAYS)
                 .boxed()
-                .map(dayNo -> Date.valueOf(NOW_DATE).toLocalDate().minusDays(dayNo)) //Screenings for n days in the past since today
+                .map(screeningsEndDate::minusDays) //Screenings for n days in the past since today
                 .flatMap(day -> Arrays.stream(SCREENING_DAILY_SCREENINGS_LIST) //n screenings per day
                         .boxed()
                         .map(screeningNo -> LocalDateTime.of(day, SCREENING_TIME_START) //first screening at hour
