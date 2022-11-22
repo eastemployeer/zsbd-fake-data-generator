@@ -16,13 +16,13 @@ public class GenerationConfig {
     //GENERATION SIZE
     public static final int CUSTOMER_COUNT = 100_000;
     public static final int EMPLOYEE_COUNT = 1000;
-    public static final int MOVIE_COUNT = 10000;
+    public static final int MOVIE_COUNT = 1000;
 
     // MOVIE_VERSION_COUNT = MOVIE_COUNT * RANDOM_FOR_EVERY_MOVIE(1 - 5)
 
     // REVIEW_COUNT = MOVIE_COUNT * RANDOM_FOR_EVERY_MOVIE (0 - 200)
 
-    public static final int ROOM_COUNT = 100;
+    public static final int ROOM_COUNT = 15;
 
     // SCREENING_COUNT = ROOM_COUNT * SCREENING_NUMBER_OF_DAYS_PER_ROOM (30) * SCREENING_DAILY_SCREENINGS_LIST.SIZE() (3)
 
@@ -42,8 +42,8 @@ public class GenerationConfig {
     //MOVIE
     public static final int MIN_MOVIE_LENGTH_IN_MINUTES = 15;
     public static final int MAX_MOVIE_LENGTH_IN_MINUTES = 180;
-    public static final String MOVIE_PREMIERE_DATE_START = "1960-01-01";
-    public static final String MOVIE_PREMIERE_DATE_END = "2001-12-31";
+    public static final Integer MOVIE_PREMIERE_MONTHS_BACK = 24;
+    public static final String MOVIE_PREMIERE_DATE_END = NOW_DATE;
 
     //MOVIE_VERSION
     public static final int MIN_MOVIE_VERSIONS_PER_MOVIE = 1;
@@ -53,7 +53,7 @@ public class GenerationConfig {
     public static final int MIN_REVIEW_DESCRIPTION_SENTENCES_NUMBER = 0;
     public static final int MAX_REVIEW_DESCRIPTION_SENTENCES_NUMBER = 10;
     public static final int MIN_REVIEW_LIKES_NUMBER = 0;
-    public static final int MAX_REVIEW_LIKES_NUMBER = 10000;
+    public static final int MAX_REVIEW_LIKES_NUMBER = 100;
     public static final int MIN_REVIEWS_PER_MOVIE = 0;
     public static final int MAX_REVIEWS_PER_MOVIE = 200; //Or less if number of Customers is less than set value
 
@@ -72,7 +72,7 @@ public class GenerationConfig {
     public static final int MIN_SCREENING_ADS_LENGTH_IN_MINUTES = 10;
     public static final int MAX_SCREENING_ADS_LENGTH_IN_MINUTES = 30;
     public static final int SCREENING_DAYS_AHEAD_OF_NOW = 30;
-    public static final int SCREENING_DAYS = 30;
+    public static final int SCREENING_DAYS = 100;
     public static final int[] SCREENING_DAILY_SCREENINGS_LIST = {0, 1, 2};
     public static final LocalTime SCREENING_TIME_START = LocalTime.NOON;
     public static final long SCREENING_TIME_INTERVAL_IN_HOURS = 3L;

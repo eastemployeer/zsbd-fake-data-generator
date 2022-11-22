@@ -20,16 +20,10 @@ public class MovieGenerator extends FakerGenerator<Movie> {
     public MovieGenerator(Faker faker) {
         super(faker);
     }
+
     @Override
     public Movie generate() {
-        return new Movie(
-                getNextId(),
-                generateUniqueTitle(),
-                faker.book().author(),
-                faker.number().numberBetween(MIN_MOVIE_LENGTH_IN_MINUTES, MAX_MOVIE_LENGTH_IN_MINUTES),
-                generatePremiereDate(),
-                faker.book().genre()
-        );
+        return new Movie(getNextId(), generateUniqueTitle(), faker.book().author(), faker.number().numberBetween(MIN_MOVIE_LENGTH_IN_MINUTES, MAX_MOVIE_LENGTH_IN_MINUTES), generatePremiereDate(), faker.book().genre());
     }
 
     private String generateUniqueTitle() {
@@ -43,20 +37,21 @@ public class MovieGenerator extends FakerGenerator<Movie> {
     }
 
     private String generateTitle() {
-        return faker.book().title()
-                + " "
-                + faker.number().numberBetween(1, 15)
-                + " - "
-                + faker.book().title();
+        return faker.book().title() + " " + faker.number().numberBetween(1, 15) + " - " + faker.book().title();
     }
 
     private Date generatePremiereDate() {
         return Date.valueOf(
                 LocalDate.ofInstant(
-                        faker
-                                .date()
-                                .between(Date.valueOf(MOVIE_PREMIERE_DATE_START), Date.valueOf(MOVIE_PREMIERE_DATE_END))
-                                .toInstant(),
-                        ZoneId.systemDefault()));
+                        faker.date()
+                                .between(
+                                        Date.valueOf(Date.valueOf(MOVIE_PREMIERE_DATE_END)
+                                                .toLocalDate()
+                                                .minusMonths(MOVIE_PREMIERE_MONTHS_BACK)
+                                        ),
+                                        Date.valueOf(MOVIE_PREMIERE_DATE_END)).toInstant(),
+                        ZoneId.systemDefault()
+                )
+        );
     }
 }
