@@ -6,11 +6,10 @@ import pl.kpkpur.zsbddatagenerator.model.Customer;
 import pl.kpkpur.zsbddatagenerator.model.Employee;
 import pl.kpkpur.zsbddatagenerator.model.Screening;
 import pl.kpkpur.zsbddatagenerator.model.Ticket;
+import pl.kpkpur.zsbddatagenerator.model.enums.TicketDiscountType;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Stream;
@@ -69,6 +68,7 @@ public class TicketGenerator extends FakerGenerator<Ticket> {
                 screening.getDatetime()
         ).toInstant();
 
+        TicketDiscountType discountType = generateDiscountType(screening, customer);
 
         return new Ticket(
                 getNextId(),
@@ -77,28 +77,45 @@ public class TicketGenerator extends FakerGenerator<Ticket> {
                 employee.getId(),
                 Character.toString(row),
                 Integer.toString(seat),
-                0.0,
+                calculateDiscount(screening, discountType),
+                discountType,
                 Timestamp.from(date)
         );
     }
 
-    //TODO: Finish discount generation depending on the customer age
-    private Double generateDiscount(Screening screening, Customer customer) {
-
+    private TicketDiscountType generateDiscountType(Screening screening, Customer customer) {
         //if screening is premiere we don't allow discounts
-        if (screening.getIsPremiere() == 1) {
+        if (screening.getIsPremiere() == 1 || screening.getIsDiscountable() == 0) {
+            return null;
+        }
+
+        int customerAgeInYears = Period.between(customer.getBirthDate().toLocalDate(),
+                java.sql.Date.valueOf(NOW_DATE).toLocalDate()).getYears();
+
+        if (customerAgeInYears <= 3) {
+            return TicketDiscountType.CHILD_UNDER_3;
+        }
+
+        if (customerAgeInYears <= 25) {
+            return TicketDiscountType.STUDENT;
+        }
+
+        if (Objects.equals(customer.getGender(), "Female") && customerAgeInYears >= 60) {
+            return TicketDiscountType.PENSIONER;
+        }
+
+        if (Objects.equals(customer.getGender(), "Male") && customerAgeInYears >= 65) {
+            return TicketDiscountType.PENSIONER;
+        }
+
+        return null;
+    }
+
+    private Double calculateDiscount(Screening screening, TicketDiscountType discountType) {
+        if (discountType == null) {
             return 0.0;
         }
 
-        LocalDate customerBirthLocalDate = LocalDate.ofInstant(customer.getBirthDate().toInstant(), ZoneId.systemDefault());
-
-        int customerAgeInYears = Period.between(customerBirthLocalDate,
-                LocalDate.ofInstant(java.sql.Date.valueOf(NOW_DATE).toInstant(), ZoneId.systemDefault())).getYears();
-
-        if (customerAgeInYears < 18) {
-            return 0.0;
-        }
-
-        return 0.0;
+        return screening.getPrice() * discountType.discountPercentage / 100;
     }
 }

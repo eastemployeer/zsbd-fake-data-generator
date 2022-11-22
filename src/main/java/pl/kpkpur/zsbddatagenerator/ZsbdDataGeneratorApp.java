@@ -271,7 +271,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
 
         // Write CSV
         try (CSVPrinter ticketCsvPrinter = new CSVPrinter(ticketFileWriter, CSVFormat.DEFAULT)) {
-            ticketCsvPrinter.printRecord("id" ,"screening_id", "customer_id", "employee_id", "row", "seat", "discount", "purchase_datetime");
+            ticketCsvPrinter.printRecord("id" ,"screening_id", "customer_id", "employee_id", "row", "seat", "discount", "discount_type", "purchase_datetime");
             for (Ticket ticket : tickets) {
                 ticketCsvPrinter.printRecord(
                         ticket.getId(),
@@ -281,6 +281,7 @@ public class ZsbdDataGeneratorApp implements CommandLineRunner {
                         ticket.getRow(),
                         ticket.getSeat(),
                         String.format("%.2f", ticket.getDiscount()),
+                        ticket.getDiscountType(),
                         ticket.getPurchaseDatetime()
                 );
             }

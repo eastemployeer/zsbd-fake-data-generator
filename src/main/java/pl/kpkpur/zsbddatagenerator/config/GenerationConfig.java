@@ -32,7 +32,7 @@ public class GenerationConfig {
 
     //CUSTOMER
     public static final String CUSTOMER_BIRTHDATE_START = "1960-01-01";
-    public static final String CUSTOMER_BIRTHDATE_END = "2012-12-31";
+    public static final String CUSTOMER_BIRTHDATE_END = "2021-12-31";
 
     //EMPLOYEE
     public static final int MAX_EMPLOYEE_SUBORDINATES = 3;

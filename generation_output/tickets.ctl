@@ -12,5 +12,6 @@ trailing nullcols
              "ROW" CHAR(1),
              SEAT,
              DISCOUNT "translate(:DISCOUNT, ',', '.' )",
+             DISCOUNT_TYPE CHAR(255),
              PURCHASE_DATETIME TIMESTAMP "YYYY-MM-DD HH24:MI:SS.FF"
            )

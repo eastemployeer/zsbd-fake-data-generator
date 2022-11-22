@@ -2,6 +2,7 @@ package pl.kpkpur.zsbddatagenerator.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import pl.kpkpur.zsbddatagenerator.model.enums.TicketDiscountType;
 
 import java.sql.Timestamp;
 
@@ -15,5 +16,6 @@ public class Ticket {
     private String row;
     private String seat;
     private Double discount;
+    private TicketDiscountType discountType;
     private Timestamp purchaseDatetime;
 }
